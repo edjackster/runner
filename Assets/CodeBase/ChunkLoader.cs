@@ -36,7 +36,7 @@ public class ChunkLoader : MonoBehaviour
         chunk.transform.position = _spawnedChunks[_spawnedChunks.Count-1].End.position - chunk.Begin.localPosition;
         _spawnedChunks.Add(chunk);
 
-        if (-_spawnedChunks.Count > 2)
+        if (_spawnedChunks.Count > 2)
         {
             Destroy(_spawnedChunks[0].gameObject);
             _spawnedChunks.RemoveAt(0);
