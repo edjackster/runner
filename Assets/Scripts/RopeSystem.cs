@@ -17,7 +17,6 @@ public class RopeSystem : MonoBehaviour
     private SpriteRenderer _playerSprite;
     private float _horizontalInput;
     private float _verticalInput;
-    private bool _isColliding;
 
     [SerializeField] private LineRenderer _ropeRenderer;
     [SerializeField] private LayerMask _ropeLayerMask;
@@ -25,6 +24,7 @@ public class RopeSystem : MonoBehaviour
     [SerializeField] private DistanceJoint2D _ropeJoint;
     [SerializeField] private float _ropeMaxCastDistance;
     [SerializeField] private float _climbSpeed;
+    [SerializeField] private Vector2 _maxSwingForce;
     [SerializeField] private float _swingForce;
 
     [Space]
@@ -109,7 +109,7 @@ public class RopeSystem : MonoBehaviour
 
     private void HandleInput(Vector2 aimDirection)
     {
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButtonDown(0))
         {
             // 2
             if (_ropeAttached) return;
@@ -142,7 +142,7 @@ public class RopeSystem : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButton(1))
+        if (Input.GetMouseButtonUp(0))
         {
             ResetRope();
         }
@@ -220,8 +220,8 @@ public class RopeSystem : MonoBehaviour
 
     private void HandleRopeLength()
     {
-        if (_ropeAttached && (Input.GetAxis("Vertical") != 0) && _isColliding == false)
-            _ropeJoint.distance -= Input.GetAxisRaw("Vertical") * _climbSpeed * Time.deltaTime;
+        if (_ropeAttached && (Input.GetAxis("Vertical") != 0))
+            _ropeJoint.distance -= _verticalInput * _climbSpeed * Time.deltaTime;
     }
 
     private void ApplySwingingForce()
@@ -263,14 +263,5 @@ public class RopeSystem : MonoBehaviour
             _playerRB.velocity = Vector2.zero;
     }
 
-    void OnTriggerStay2D(Collider2D colliderStay)
-    {
-        _isColliding = true;
-    }
-
-    private void OnTriggerExit2D(Collider2D colliderOnExit)
-    {
-        _isColliding = false;
-    }
 
 }
