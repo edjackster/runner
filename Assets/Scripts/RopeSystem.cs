@@ -10,13 +10,14 @@ public class RopeSystem : MonoBehaviour
     private List<Vector2> _ropePositions = new List<Vector2>();
     private Vector2 _ropeHook;
     private bool _distanceSet;
-    private bool _isSwinging;
+    public bool _isSwinging;
 
     private Vector2 _playerPosition;
     private Rigidbody2D _playerRB;
     private SpriteRenderer _playerSprite;
     private float _horizontalInput;
     private float _verticalInput;
+    private bool _isColliding;
 
     [SerializeField] private LineRenderer _ropeRenderer;
     [SerializeField] private LayerMask _ropeLayerMask;
@@ -24,20 +25,16 @@ public class RopeSystem : MonoBehaviour
     [SerializeField] private DistanceJoint2D _ropeJoint;
     [SerializeField] private float _ropeMaxCastDistance;
     [SerializeField] private float _climbSpeed;
-    [SerializeField] private Vector2 _maxSwingForce;
     [SerializeField] private float _swingForce;
+    [SerializeField] private Vector2 _maxSwingSpeed;
 
     [Space]
 
     [SerializeField] private Transform _crosshair;
     [SerializeField] private SpriteRenderer _crosshairSprite;
 
-    private bool _isStarted;
-
-
     private void Awake()
     {
-        _isStarted = false;
         _ropeJoint.enabled = false;
         _playerPosition = transform.position;
         _playerRB = GetComponent<Rigidbody2D>();
@@ -80,18 +77,7 @@ public class RopeSystem : MonoBehaviour
         HandleRopeLength();
     }
 
-
-    private void FixedUpdate()
-    {
-        BeginGame();
-        ApplySwingingForce();
-    }
-
-    private void GetInputVector()
-    {
-        _horizontalInput = Input.GetAxisRaw("Horizontal");
-        _verticalInput = Input.GetAxisRaw("Vertical");
-    }
+    //better in PlayerMovement
 
     private void SetCrosshairPosition(float aimAngle)
     {
@@ -111,21 +97,17 @@ public class RopeSystem : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            // 2
+
             if (_ropeAttached) return;
             _ropeRenderer.enabled = true;
 
             var hit = Physics2D.Raycast(_playerPosition, aimDirection, _ropeMaxCastDistance, _ropeLayerMask);
 
-            // 3
             if (hit.collider != null)
             {
                 _ropeAttached = true;
-                _isStarted = true;
                 if (!_ropePositions.Contains(hit.point))
                 {
-                    // 4
-                    // Немного подпрыгивает над землёй, когда игрок к чему-то прицепится крюком.
                     transform.GetComponent<Rigidbody2D>().AddForce(new Vector2(0f, 2f), ForceMode2D.Impulse);
                     _ropePositions.Add(hit.point);
                     _ropeJoint.distance = Vector2.Distance(_playerPosition, hit.point);
@@ -133,7 +115,7 @@ public class RopeSystem : MonoBehaviour
                     _ropeHingeAnchorSprite.enabled = true;
                 }
             }
-            // 5
+
             else
             {
                 _ropeRenderer.enabled = false;
@@ -176,7 +158,6 @@ public class RopeSystem : MonoBehaviour
             {
                 _ropeRenderer.SetPosition(i, _ropePositions[i]);
 
-                // 4
                 if (i == _ropePositions.Count - 1 || _ropePositions.Count == 1)
                 {
                     var ropePosition = _ropePositions[_ropePositions.Count - 1];
@@ -199,7 +180,7 @@ public class RopeSystem : MonoBehaviour
                         }
                     }
                 }
-                
+
                 else if (i - 1 == _ropePositions.IndexOf(_ropePositions.Last()))
                 {
                     var ropePosition = _ropePositions.Last();
@@ -220,23 +201,27 @@ public class RopeSystem : MonoBehaviour
 
     private void HandleRopeLength()
     {
-        if (_ropeAttached && (Input.GetAxis("Vertical") != 0))
+        if (_ropeAttached && (_verticalInput != 0) && _isColliding == false)
             _ropeJoint.distance -= _verticalInput * _climbSpeed * Time.deltaTime;
     }
 
-    private void ApplySwingingForce()
+    public void GetInputVector()
     {
-        if (_horizontalInput!=0)
+        _horizontalInput = Input.GetAxisRaw("Horizontal");
+        _verticalInput = Input.GetAxisRaw("Vertical");
+    }
+
+    public void ApplySwingingForce()
+    {
+        if (_horizontalInput != 0)
         {
             _playerSprite.flipX = _horizontalInput > 0;
 
             if (_isSwinging)
             {
-                
-                // 1 - получаем нормализованный вектор направления от игрока к точке крюка
+
                 var playerToHookDirection = (_ropeHook - (Vector2)transform.position).normalized;
 
-                // 2 - Инвертируем направление, чтобы получить перпендикулярное направление
                 Vector2 perpendicularDirection;
                 if (_horizontalInput < 0)
                 {
@@ -257,11 +242,12 @@ public class RopeSystem : MonoBehaviour
         }
     }
 
-    private void BeginGame()
+    public void ClampRopeMovement()
     {
-        if (_isStarted == false)
-            _playerRB.velocity = Vector2.zero;
-    }
+        float xClamp = Mathf.Clamp(_playerRB.velocity.x, -_maxSwingSpeed.x, _maxSwingSpeed.x);
+        float yClamp = Mathf.Clamp(_playerRB.velocity.y, -_maxSwingSpeed.y, _maxSwingSpeed.y);
+        _playerRB.velocity = new Vector2(xClamp, yClamp);
 
+    }
 
 }
