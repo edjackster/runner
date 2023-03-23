@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -9,6 +6,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _maxMovementSpeed;
     [SerializeField] private float _acceleration;
     [SerializeField] private float _decceleration;
+
+    [Header("Jump parameters")]
+    [SerializeField] private float _jumpForce;
 
     [Header("Checks")]
     [SerializeField] private Transform _groundCheckPoint;
@@ -33,12 +33,12 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         CalculateCollisions();
-
+        ApplyJump();
     }
 
     private void FixedUpdate()
     {
-        if (_playerRope._isSwinging == false)
+        if (_playerRope.isSwinging == false)
             ApplyRun();
         else
         {
@@ -60,6 +60,18 @@ public class PlayerMovement : MonoBehaviour
     {
         IsGrounded = Physics2D.OverlapCircle(_groundCheckPoint.position, _groundCheckRadius, _groundLayer);
         //IsFacingWall = Physics2D.OverlapCircle(_frontWallCheckPoint.position, _frontWallCheckRadius, _groundLayer);
+    }
+
+    private void ApplyJump()
+    {
+        if (IsGrounded && _playerRope.isSwinging == false && Input.GetKeyDown(KeyCode.Space))
+        {
+            _playerRB.velocity = new Vector2(_playerRB.velocity.x, 0);
+            float force = _jumpForce;
+            if (_playerRB.velocity.y < 0)
+                force -= _playerRB.velocity.y;
+            _playerRB.AddForce(Vector2.up * force, ForceMode2D.Impulse);
+        }
     }
 
 }
