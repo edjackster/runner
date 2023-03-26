@@ -27,6 +27,8 @@ public class RopeSystem : MonoBehaviour
     [SerializeField] private float _ropeMaxCastDistance;
     [SerializeField] private float _climbSpeed;
     [SerializeField] private float _swingForce;
+    [SerializeField] private float _maxRopeSize;
+    [SerializeField] private float _minRopeSize;
     [SerializeField] private Vector2 _maxSwingSpeed;
 
     [Space]
@@ -312,7 +314,10 @@ public class RopeSystem : MonoBehaviour
     private void HandleRopeLength()
     {
         if (_ropeAttached && (_verticalInput != 0) && _isColliding == false)
+        {
             _ropeJoint.distance -= _verticalInput * _climbSpeed * Time.deltaTime;
+            _ropeJoint.distance = Mathf.Clamp(_ropeJoint.distance, _minRopeSize, _maxRopeSize);
+        }
     }
 
     //better in PlayerMovement
@@ -348,6 +353,7 @@ public class RopeSystem : MonoBehaviour
                 }
 
                 var force = perpendicularDirection * _swingForce;
+                Debug.Log(force);
                 _playerRB.AddForce(force, ForceMode2D.Force);
             }
         }

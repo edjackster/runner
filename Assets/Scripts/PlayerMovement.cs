@@ -30,21 +30,20 @@ public class PlayerMovement : MonoBehaviour
         _playerRope = GetComponent<RopeSystem>();
     }
 
-    private void Update()
-    {
-        CalculateCollisions();
-        ApplyJump();
-    }
-
     private void FixedUpdate()
     {
         if (_playerRope.isSwinging == false)
+        {
             ApplyRun();
+        }
         else
         {
             _playerRope.ApplySwingingForce();
             _playerRope.ClampRopeMovement();
         }
+
+        CalculateCollisions();
+        ApplyJump();
     }
 
     private void ApplyRun()

@@ -1645,6 +1645,8 @@ MonoBehaviour:
   _ropeMaxCastDistance: 20
   _climbSpeed: 5
   _swingForce: 7
+  _maxRopeSize: 20
+  _minRopeSize: 1
   _maxSwingSpeed: {x: 10, y: 10}
   _crosshair: {fileID: 1311577067}
   _crosshairSprite: {fileID: 1311577068}
