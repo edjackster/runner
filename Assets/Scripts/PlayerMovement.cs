@@ -1,4 +1,8 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -12,7 +16,8 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Checks")]
     [SerializeField] private Transform _groundCheckPoint;
-    [SerializeField] private float _groundCheckRadius;
+    [SerializeField] private float _groundCheckRadiusX;
+    [SerializeField]private float _groundCheckRadiusY;
 
     [Header("Layers and masks")]
     [SerializeField] private LayerMask _groundLayer;
@@ -30,7 +35,8 @@ public class PlayerMovement : MonoBehaviour
         _playerRope = GetComponent<RopeSystem>();
     }
 
-    private void FixedUpdate()
+
+    protected void FixedUpdate()
     {
         if (_playerRope.isSwinging == false)
         {
@@ -52,25 +58,24 @@ public class PlayerMovement : MonoBehaviour
         float speedDif = targetSpeed - _playerRB.velocity.x;
         float accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? _acceleration : _decceleration;
         float movement = speedDif * accelRate;
+
         _playerRB.AddForce(movement * Vector2.right, ForceMode2D.Force);
     }
 
     private void CalculateCollisions()
     {
-        IsGrounded = Physics2D.OverlapCircle(_groundCheckPoint.position, _groundCheckRadius, _groundLayer);
+        IsGrounded = Physics2D.OverlapBox(_groundCheckPoint.position, new Vector2(_groundCheckRadiusX, _groundCheckRadiusY), 0f, _groundLayer.value);
         //IsFacingWall = Physics2D.OverlapCircle(_frontWallCheckPoint.position, _frontWallCheckRadius, _groundLayer);
     }
 
     private void ApplyJump()
     {
-        if (IsGrounded && _playerRope.isSwinging == false && Input.GetKeyDown(KeyCode.Space))
+        if (IsGrounded 
+            && _playerRope.isSwinging == false 
+            && Input.GetKeyDown(KeyCode.Space))
         {
             _playerRB.velocity = new Vector2(_playerRB.velocity.x, 0);
-            float force = _jumpForce;
-            if (_playerRB.velocity.y < 0)
-                force -= _playerRB.velocity.y;
-            _playerRB.AddForce(Vector2.up * force, ForceMode2D.Impulse);
+            _playerRB.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
         }
     }
-
 }

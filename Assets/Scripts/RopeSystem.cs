@@ -1,4 +1,4 @@
-using System.Linq;
+п»їusing System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -35,20 +35,24 @@ public class RopeSystem : MonoBehaviour
 
     [SerializeField] private Transform _crosshair;
     [SerializeField] private SpriteRenderer _crosshairSprite;
+    //[SerializeField] private float _crosshairOffset;
 
     private void Awake()
     {
         _ropeJoint.enabled = false;
         _playerPosition = transform.position;
+        
         _playerRB = GetComponent<Rigidbody2D>();
         _playerSprite = GetComponent<SpriteRenderer>();
+        
         _ropeHingeAnchorRb = _ropeHingeAnchor.GetComponent<Rigidbody2D>();
         _ropeHingeAnchorSprite = _ropeHingeAnchor.GetComponent<SpriteRenderer>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         GetInputVector();
+
         var worldMousePosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0f));
         var facingDirection = worldMousePosition - transform.position;
         var aimAngle = Mathf.Atan2(facingDirection.y, facingDirection.x);
@@ -76,11 +80,8 @@ public class RopeSystem : MonoBehaviour
         }
 
         HandleInput(aimDirection);
-
         UpdateRopePositions();
-
         HandleRopeLength();
-
         HandleRopeUnwrap();
     }
 
@@ -91,8 +92,10 @@ public class RopeSystem : MonoBehaviour
             _crosshairSprite.enabled = true;
         }
 
-        var x = transform.position.x + 1f * Mathf.Cos(aimAngle);
-        var y = transform.position.y + 1f * Mathf.Sin(aimAngle);
+        // dmitry: suppose, 1f here - setting for the inspector, crosshair distance
+        // 
+        var x = transform.position.x + /*_crosshairOffset*/ 1f * Mathf.Cos(aimAngle);
+        var y = transform.position.y + /*_crosshairOffset*/ 1f * Mathf.Sin(aimAngle);
 
         var crossHairPosition = new Vector3(x, y, 0);
         _crosshair.transform.position = crossHairPosition;
@@ -100,10 +103,20 @@ public class RopeSystem : MonoBehaviour
 
     private void HandleInput(Vector2 aimDirection)
     {
+        if (_ropeAttached)
+        {
+            if (Input.GetMouseButtonUp(0))
+                ResetRope();
+            else
+                return;
+        }
+
         if (Input.GetMouseButtonDown(0))
         {
+            // dmitry: weird control-code position
+            //if (_ropeAttached) return;
+            
 
-            if (_ropeAttached) return;
             _ropeRenderer.enabled = true;
 
             var hit = Physics2D.Raycast(_playerPosition, aimDirection, _ropeMaxCastDistance, _ropeLayerMask);
@@ -129,10 +142,10 @@ public class RopeSystem : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonUp(0))
+/*        if (Input.GetMouseButtonUp(0))
         {
             ResetRope();
-        }
+        }*/
     }
 
     private void ResetRope()
@@ -140,6 +153,7 @@ public class RopeSystem : MonoBehaviour
         _ropeJoint.enabled = false;
         _ropeAttached = false;
         isSwinging = false;
+
         _ropeRenderer.positionCount = 2;
         _ropeRenderer.SetPosition(0, transform.position);
         _ropeRenderer.SetPosition(1, transform.position);
@@ -150,7 +164,6 @@ public class RopeSystem : MonoBehaviour
 
     private void UpdateRopePositions()
     {
-
         if (!_ropeAttached)
         {
             return;
@@ -255,10 +268,10 @@ public class RopeSystem : MonoBehaviour
             return;
         }
 
-        // Hinge = следующая точка вверх от позиции игрока
-        // Anchor = следующая точка вверх от Hinge
-        // Hinge Angle = угол между anchor и hinge
-        // Player Angle = угол между anchor и player
+        // Hinge = Г±Г«ГҐГ¤ГіГѕГ№Г Гї ГІГ®Г·ГЄГ  ГўГўГҐГ°Гµ Г®ГІ ГЇГ®Г§ГЁГ¶ГЁГЁ ГЁГЈГ°Г®ГЄГ 
+        // Anchor = Г±Г«ГҐГ¤ГіГѕГ№Г Гї ГІГ®Г·ГЄГ  ГўГўГҐГ°Гµ Г®ГІ Hinge
+        // Hinge Angle = ГіГЈГ®Г« Г¬ГҐГ¦Г¤Гі anchor ГЁ hinge
+        // Player Angle = ГіГЈГ®Г« Г¬ГҐГ¦Г¤Гі anchor ГЁ player
 
         var anchorIndex = _ropePositions.Count - 2;
         var hingeIndex = _ropePositions.Count - 1;
@@ -271,7 +284,6 @@ public class RopeSystem : MonoBehaviour
 
         if (playerAngle < hingeAngle)
         {
-
             if (_wrapPointsLookup[hingePosition] == 1)
             {
                 UnwrapRopePosition(anchorIndex, hingeIndex);
@@ -335,7 +347,6 @@ public class RopeSystem : MonoBehaviour
 
             if (isSwinging)
             {
-
                 var playerToHookDirection = (_ropeHook - (Vector2)transform.position).normalized;
 
                 Vector2 perpendicularDirection;
@@ -353,7 +364,6 @@ public class RopeSystem : MonoBehaviour
                 }
 
                 var force = perpendicularDirection * _swingForce;
-                Debug.Log(force);
                 _playerRB.AddForce(force, ForceMode2D.Force);
             }
         }
@@ -365,7 +375,6 @@ public class RopeSystem : MonoBehaviour
         float yClamp = Mathf.Clamp(_playerRB.velocity.y, -_maxSwingSpeed.y, _maxSwingSpeed.y);
         _playerRB.velocity = new Vector2(xClamp, yClamp);
 
+
     }
-
-
 }
