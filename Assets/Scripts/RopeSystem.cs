@@ -24,7 +24,6 @@ public class RopeSystem : MonoBehaviour
     [SerializeField] private LayerMask _ropeLayerMask;
     [SerializeField] private GameObject _ropeHingeAnchor;
     [SerializeField] private DistanceJoint2D _ropeJoint;
-    [SerializeField] private float _ropeMaxCastDistance;
     [SerializeField] private float _climbSpeed;
     [SerializeField] private float _swingForce;
     [SerializeField] private float _maxRopeSize;
@@ -119,7 +118,7 @@ public class RopeSystem : MonoBehaviour
 
             _ropeRenderer.enabled = true;
 
-            var hit = Physics2D.Raycast(_playerPosition, aimDirection, _ropeMaxCastDistance, _ropeLayerMask);
+            var hit = Physics2D.Raycast(_playerPosition, aimDirection, _maxRopeSize, _ropeLayerMask);
 
             if (hit.collider != null)
             {
