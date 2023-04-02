@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -17,7 +13,8 @@ public class PlayerMovement : MonoBehaviour
     [Header("Checks")]
     [SerializeField] private Transform _groundCheckPoint;
     [SerializeField] private float _groundCheckRadiusX;
-    [SerializeField]private float _groundCheckRadiusY;
+    [SerializeField] private float _groundCheckRadiusY;
+    public bool isDead;
 
     [Header("Layers and masks")]
     [SerializeField] private LayerMask _groundLayer;

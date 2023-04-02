@@ -24,7 +24,7 @@ public class Bouncness : MonoBehaviour
         Vector2 localPosition = _playerRigidbody.InverseTransformPoint(transform.position);
         
         var t = localPosition.y * _squishForce;
-        Debug.Log(t);
+        //Debug.Log(t);
         Vector3 scale = Lerp3(_squishUp, Vector3.one, _squishDown, t);
         
         _playerSprite.localScale = scale;

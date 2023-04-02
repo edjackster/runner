@@ -2083,7 +2083,6 @@ MonoBehaviour:
     m_Bits: 128
   _ropeHingeAnchor: {fileID: 1474343458}
   _ropeJoint: {fileID: 2080046487}
-  _ropeMaxCastDistance: 20
   _climbSpeed: 5
   _swingForce: 7
   _maxRopeSize: 20
