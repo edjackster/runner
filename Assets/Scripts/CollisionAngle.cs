@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CollisionAngle : MonoBehaviour
@@ -10,7 +8,6 @@ public class CollisionAngle : MonoBehaviour
     private float _colliderLength;
     private float _colliderHeight;
     private Vector2 _colliderCenter;
-    private float _resultAngle;
     private Vector2 _leftTopPoint;
     private Vector2 _rightTopPoint;
 
@@ -22,9 +19,14 @@ public class CollisionAngle : MonoBehaviour
     void Start()
     {
         _colliderCenter = _platformCollider.offset;
-        _colliderHeight = _platformCollider.size.y;
-        _colliderLength = _platformCollider.size.x;
+        _colliderHeight = Camera.main.WorldToScreenPoint(_platformCollider.size).y;
+        _colliderLength = Camera.main.WorldToScreenPoint(_platformCollider.size).x;
 
+        _leftTopPoint = new Vector2(_colliderCenter.x - _colliderLength, _colliderCenter.y + _colliderHeight);
+        _rightTopPoint = new Vector2(_colliderCenter.x + _colliderLength, _colliderCenter.y + _colliderHeight);
+
+
+        _platformEffector.surfaceArc = Vector2.Angle(_leftTopPoint, _rightTopPoint);
         Debug.Log(_platformCollider.offset); 
     }
 

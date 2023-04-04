@@ -153,7 +153,7 @@ Transform:
   m_GameObject: {fileID: 39679294}
   m_LocalRotation: {x: -0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.9894938, y: 1, z: 1}
+  m_LocalScale: {x: 0.98549026, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1970074784}
@@ -523,6 +523,7 @@ GameObject:
   - component: {fileID: 375976476}
   - component: {fileID: 375976474}
   - component: {fileID: 375976478}
+  - component: {fileID: 375976479}
   m_Layer: 7
   m_Name: BouncePart (1)
   m_TagString: Untagged
@@ -538,8 +539,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 375976472}
   m_LocalRotation: {x: -0, y: 0, z: 1, w: 0}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
-  m_LocalScale: {x: 0.9894938, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.98549026, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1970074784}
@@ -663,6 +664,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &375976479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 375976472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71cb2f66643b30340af97f58ab421ba2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &569470929
 GameObject:
   m_ObjectHideFlags: 0
@@ -1015,6 +1028,7 @@ GameObject:
   - component: {fileID: 1007132621}
   - component: {fileID: 1007132619}
   - component: {fileID: 1007132623}
+  - component: {fileID: 1007132624}
   m_Layer: 7
   m_Name: BouncePart (1)
   m_TagString: Untagged
@@ -1155,6 +1169,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &1007132624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1007132617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71cb2f66643b30340af97f58ab421ba2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1094627719
 GameObject:
   m_ObjectHideFlags: 0
@@ -2297,7 +2323,7 @@ GameObject:
   - component: {fileID: 1673533420}
   - component: {fileID: 1673533419}
   m_Layer: 7
-  m_Name: VerticalPlatform
+  m_Name: VBouncePlatform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2435,6 +2461,7 @@ GameObject:
   - component: {fileID: 1690675051}
   - component: {fileID: 1690675049}
   - component: {fileID: 1690675053}
+  - component: {fileID: 1690675054}
   m_Layer: 7
   m_Name: BouncePart
   m_TagString: Untagged
@@ -2575,6 +2602,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &1690675054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1690675047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71cb2f66643b30340af97f58ab421ba2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1761279384
 GameObject:
   m_ObjectHideFlags: 0
@@ -2928,7 +2967,7 @@ GameObject:
   - component: {fileID: 1970074786}
   - component: {fileID: 1970074785}
   m_Layer: 7
-  m_Name: HorizontalPlatform
+  m_Name: HBouncePlatform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2943,7 +2982,7 @@ Transform:
   m_GameObject: {fileID: 1970074783}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 24.15, y: -0.1, z: -0.06424141}
-  m_LocalScale: {x: -5, y: 0.3075, z: 1}
+  m_LocalScale: {x: -5.020313, y: 0.3075, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 39679295}
