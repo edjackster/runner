@@ -1,5 +1,4 @@
-﻿using Assets.CodeBase.Infrastructure;
-using System;
+﻿using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
