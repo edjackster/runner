@@ -636,6 +636,18 @@ PrefabInstance:
       propertyPath: _maxSwingSpeed.y
       value: 12
       objectReference: {fileID: 0}
+    - target: {fileID: 3406275665443499694, guid: 8d4fcaa6ced070b4e87dec4daad86bd5, type: 3}
+      propertyPath: _ropeLayerMask.m_Bits
+      value: 256
+      objectReference: {fileID: 0}
+    - target: {fileID: 3406275665443499695, guid: 8d4fcaa6ced070b4e87dec4daad86bd5, type: 3}
+      propertyPath: _groundCheckRadiusX
+      value: 0.95
+      objectReference: {fileID: 0}
+    - target: {fileID: 3406275665443499695, guid: 8d4fcaa6ced070b4e87dec4daad86bd5, type: 3}
+      propertyPath: _groundLayer.m_Bits
+      value: 256
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8d4fcaa6ced070b4e87dec4daad86bd5, type: 3}
 --- !u!1 &712096955
@@ -921,8 +933,8 @@ MonoBehaviour:
   m_StreamingVersion: 20170927
   m_Priority: 10
   m_StandbyUpdate: 2
-  m_LookAt: {fileID: 1421343784}
-  m_Follow: {fileID: 1421343784}
+  m_LookAt: {fileID: 0}
+  m_Follow: {fileID: 845561114}
   m_Lens:
     FieldOfView: 60
     OrthographicSize: 5
@@ -955,8 +967,13 @@ Transform:
   m_Children:
   - {fileID: 1434782153}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &845561114 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3406275665443499690, guid: 8d4fcaa6ced070b4e87dec4daad86bd5, type: 3}
+  m_PrefabInstance: {fileID: 623790727}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &855011310 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7806599108325677976, guid: af414514832035b4eae23fec0ecd4a0c, type: 3}
@@ -1389,11 +1406,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &1421343784 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2531854748387867459, guid: 8d4fcaa6ced070b4e87dec4daad86bd5, type: 3}
-  m_PrefabInstance: {fileID: 623790727}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1434782152
 GameObject:
   m_ObjectHideFlags: 3
@@ -1510,7 +1522,7 @@ Transform:
   - {fileID: 341514885}
   - {fileID: 724860733}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1513929528
 PrefabInstance:
@@ -2050,7 +2062,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1789327146
 MonoBehaviour:

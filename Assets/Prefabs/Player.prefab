@@ -325,7 +325,7 @@ MonoBehaviour:
   _ropeRenderer: {fileID: 3406275665443499681}
   _ropeLayerMask:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 384
   _ropeHingeAnchor: {fileID: 3406275665745618463}
   _ropeJoint: {fileID: 3406275665443499680}
   _climbSpeed: 5
@@ -352,12 +352,12 @@ MonoBehaviour:
   _decceleration: 7
   _jumpForce: 10
   _groundCheckPoint: {fileID: 3406275666742644786}
-  _groundCheckRadiusX: 1
+  _groundCheckRadiusX: 0.95
   _groundCheckRadiusY: 0.1
   isDead: 0
   _groundLayer:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 256
 --- !u!232 &3406275665443499680
 DistanceJoint2D:
   m_ObjectHideFlags: 0
